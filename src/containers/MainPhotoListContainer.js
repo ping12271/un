@@ -2,29 +2,32 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import MainPhotoList from "../components/List/MainPhotoList";
 import Api from "../api";
+import {useDispatch, useSelector} from "react-redux";
+import {Action} from "../redux/reducer";
 
 const MainPhotoListContainer = () => {
 
-    const [photos, setPhotos] = useState([]);
+    const dispatch = useDispatch();
+    const state = useSelector(state => state);
 
     useEffect(() => {
-        getPhotos()
+        getPhotos();
     }, [])
 
     const getPhotos = async () => {
+       const result = await Api.getPhotos({
+            client_id: 'T-i2T-wrTHuwVSqRwSLLYOYILuVkomGurTC6bH9Xpmc',
+            page: 2,
+            per_page: 15,
+            order_by: 'popular'
+        });
 
-        const result = await Api.getPhotos({
-            clien_id: 'T-i2T-wrTHuwVSqRwSLLYOYILuVkomGurTC6bH9Xpmc',
-            per_page: 20
-        })
-        setPhotos(result.data);
+        dispatch(Action.Creators.setPhotos(result.data))
     }
-
-
 
     return (
         <Container>
-            <MainPhotoList data={photos}/>
+            <MainPhotoList data={state.list}/>
         </Container>
     )
 }

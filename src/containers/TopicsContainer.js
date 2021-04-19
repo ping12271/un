@@ -1,0 +1,42 @@
+import React, {useEffect, useState} from "react";
+import styled from "styled-components";
+import Api from "../api";
+import {withRouter} from "react-router-dom";
+import MainPhotoList from "../components/List/MainPhotoList";
+import {useDispatch, useSelector} from "react-redux";
+import {Action} from "../redux/reducer";
+
+const TopicsContainer = ({match}) => {
+
+    const dispatch = useDispatch();
+    const state = useSelector(state => state)
+
+    const slug = match.params.slug;
+
+    useEffect(() => {
+        getTopicBySlug()
+    }, [slug])
+
+    const getTopicBySlug = async () => {
+       const result = await Api.getTopicBySlug(slug, {
+            client_id: 'T-i2T-wrTHuwVSqRwSLLYOYILuVkomGurTC6bH9Xpmc',
+        })
+
+        dispatch(Action.Creators.setTopicBySlug(result.data))
+    }
+
+  return (
+    <Container>
+        <h1>
+            {state.topicBySlug.title}
+        </h1>
+        <MainPhotoList data={state.topicBySlug.preview_photos}/>
+    </Container>
+  )
+}
+
+const Container = styled.div`
+
+`;
+
+export default withRouter(TopicsContainer);

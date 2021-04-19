@@ -1,16 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import MainPhotoListContainer from "../containers/MainPhotoListContainer";
+import SearchContainer from "../containers/SearchContainer";
 import {ContentContainer} from "../components/Layout/Layout.Styled";
-import Visual from "../components/Home/Visual";
 
-const Home = () => {
+const Search = (props) => {
 
   return (
     <Container>
-        <Visual/>
         <ContentContainer>
-            <MainPhotoListContainer/>
+            <SearchContainer {...props}/>
         </ContentContainer>
     </Container>
   )
@@ -20,4 +18,4 @@ const Container = styled.div`
 
 `;
 
-export default Home;
+export default Search;
